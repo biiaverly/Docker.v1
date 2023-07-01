@@ -150,3 +150,88 @@ Data persistence refers to the ability to store and maintain data in a durable m
 | Bind Mounts           | Bind mounts in Docker allow you to mount a file or directory from the host system into a container. By using bind mounts, you can directly access files or directories on the host's file system within the container. Any changes made to the files or directories in the bind mount are immediately visible both inside the container and on the host. Bind mounts provide a straightforward way to achieve data persistence by linking specific directories or files between the host and the container. They are useful when you want to access or modify files on the host system from within a container. |
 | Docker tmpfs mounts   | Docker tmpfs mounts enable you to mount a temporary file system into a container's file system. A tmpfs mount is stored in memory and is not persisted on disk, meaning its contents are lost when the container is stopped or restarted. Tmpfs mounts are useful when you need a temporary, lightweight, and fast storage solution within a container, but where data persistence is not required or desired. They are commonly used for storing temporary files, caches, or other ephemeral data that doesn't need to persist between container runs.                                               |
 | Ephemeral FS          | Ephemeral File System (Ephemeral FS) refers to a temporary or non-persistent file system that exists only for the duration of a process or session. It is typically used to store transient or disposable data that is not intended to persist beyond the current execution context. Ephemeral file systems are often created in memory or temporary storage space and are automatically cleared or deleted when the process or session ends. In the context of containers, ephemeral file systems can be used for temporary storage or caches, and they don't provide data persistence between container runs.                 |
+
+
+# Basic Commands
+
+
+
+| Command        | Description                                                           |
+| -------------- | --------------------------------------------------------------------- |
+| docker pull    | Downloads an image from Docker Hub or a container registry.            |
+| docker build   | Builds a new image from a Dockerfile, which contains the build instructions. |
+| docker push    | Pushes an image to a container registry, such as Docker Hub, to make it available to other users. |
+| docker images  | Lists the locally available images on the system.                       |
+| docker tag     | Tags an existing image with a new name or a new tag.                    |
+| docker rmi     | Removes an image locally from the system.                               |
+| docker save    | Saves one or more images to a tar file.                                 |
+| docker load    | Loads a previously saved image from a tar file.                         |
+| docker history | Displays the history of layers for an image.                            |
+| docker inspect | Returns detailed information about an image, including metadata and configurations. |
+| docker stop    | Stops a running container.                                             |
+| docker rm      | Removes one or more containers.                                         |
+
+
+# Docker Compose
+
+Docker Compose is a tool that allows you to define and manage multi-container applications. With Docker Compose, you can define the configuration for multiple services, networks, and volumes required for your application in a YAML file. It simplifies the task of orchestrating and running multiple containers together by providing a declarative approach to defining a container environment.
+
+Using Docker Compose, you can describe the structure of an application consisting of several services, each running in its own container. For example, you might have a web service, a database service, and a caching service, each in its own container. Docker Compose enables you to specify the images, ports, environment variables, volumes, and other details required for each service.
+
+When using Docker Compose, you can define dependencies between services, configure internal networks for communication between containers, and even scale services as needed. Once you define your application's configuration in the Docker Compose YAML file, you can easily start, stop, and manage all related containers using simple commands.
+
+Docker Compose simplifies the creation of development, testing, and integration environments by allowing you to easily define and reproduce the entire environment required to run your application. With a single command, you can deploy all the related services into containers and have a consistent and replicable infrastructure.
+
+
+```yaml
+version: '3'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./html:/usr/share/nginx/html
+    networks:
+      - mynetwork
+    environment:
+      - ENV_VAR=value
+
+  db:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - mynetwork
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+
+networks:
+  mynetwork:
+
+volumes:
+  db_data:
+tml
+
+```
+
+## Commands
+
+| Command      | Description   |
+| ------------- | ------------- |
+| version      | Specifies the version of the Docker Compose file syntax you are using. It helps ensure compatibility with different versions of Docker Compose.  |
+| services     | Defines the individual services (containers) that make up your application. Each service is represented by a key-value pair under the `services` section. |
+| image        | Specifies the Docker image to use for the service. You can provide the image name and tag. |
+| ports        | Maps container ports to the host machine. You can define port mappings in the format `container_port:host_port`. |
+| volumes      | Defines volumes to mount in the container. You can specify the source and destination paths for the volume. |
+| networks     | Specifies the networks the service should be connected to. You can define custom networks or use the default network. |
+| environment  | Sets environment variables for the service. You can define environment variables as key-value pairs. |
+| depends_on   | Defines the dependencies between services. It ensures that a service starts only after its dependent services are up and running. |
+| command      | Specifies the command to be executed inside the container. |
+| build        | Allows building a custom Docker image using a Dockerfile instead of using a pre-built image. |
+| restart      | Specifies the restart policy for the container. It defines when the container should be automatically restarted. |
+| links        | Establishes a secure and direct connection between containers. It allows containers to communicate with each other using hostnames. |
+
