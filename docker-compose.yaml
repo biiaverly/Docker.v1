@@ -1,0 +1,17 @@
+# docker-compose.yaml
+
+version: '3'
+services:
+  db:
+    container_name: BancoDados
+    build:
+      context: ./docker/BancoDados
+      dockerfile: db.dockerfile
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./docker/BancoDados/db.sql:/docker-entrypoint-initdb.d/db.sql
+
+volumes:
+  db-data:
