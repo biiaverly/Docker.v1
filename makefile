@@ -30,7 +30,7 @@ start: ## Start the project.
 check-db: ## Check if the database is running.
 	@if docker exec app_db mysqladmin ping -h localhost -u root -proot 2>/dev/null | grep -q "mysqld is alive"; then \
 		printf "\033[1;42m\n${PROJECT_NAME}_db funcionando ✅ \033[0m\n" \
-	else \s
+	else \
 		printf "\033[1;41m\n Banco de dados funcionando ✅ \033[0m\n"; \
 	fi
 
