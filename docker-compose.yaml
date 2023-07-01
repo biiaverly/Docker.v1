@@ -1,20 +1,24 @@
 version: '3'
 services:
   app:
-    container_name: app_php
+    container_name: ${PROJECT_NAME}_app
     build:
       context: ./docker/app
       dockerfile: app.dockerfile
+      args:
+        - PROJECT_NAME=${PROJECT_NAME}
     ports:
       - 8000:8000
     volumes:
       - ./src:/var/www/html
 
   nginx:
-    container_name: app_nginx
+    container_name: ${PROJECT_NAME}_nginx
     build:
       context: ./docker/web
       dockerfile: web.dockerfile
+      args:
+        - PROJECT_NAME=${PROJECT_NAME}      
     image: nginx
     ports:
       - 8080:80
